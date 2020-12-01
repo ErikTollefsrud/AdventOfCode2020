@@ -57,7 +57,7 @@ func magicTotal(_ a: Int) -> (_ b: Int) -> (Int, Int)? {
 }
 
 let solutionTuple = numbers.map { num in
-    numbers.compactMap { magicTotal(num)($0) }
+    numbers.compactMap(magicTotal(num))
 }.flatMap { $0 }
 
 print("Numbers whose sum is 2020: \(solutionTuple[0].0), \(solutionTuple[0].1)")
