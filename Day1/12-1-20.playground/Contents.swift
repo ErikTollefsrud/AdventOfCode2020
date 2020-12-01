@@ -49,5 +49,5 @@ let solutionTuple = numbers.map { num in
     }
 }.flatMap { $0 }
 
-print("Sum: \(solutionTuple[0].0), \(solutionTuple[0].1)")
-print("Solution: \(solutionTuple[0].0 * solutionTuple[0].1)")
+print("Numbers whose sum is 2020: \(solutionTuple[0].0), \(solutionTuple[0].1)")
+print("Puzzle Answer: \(solutionTuple[0].0 * solutionTuple[0].1)")
