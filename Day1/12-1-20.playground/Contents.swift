@@ -28,10 +28,19 @@ import UIKit
  Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
  */
 
-guard let resourceURL = Bundle.main.url(forResource: "input", withExtension: "txt") else { fatalError() }
-guard let contentsOfFile = try? String.init(contentsOfFile: resourceURL.path) else { fatalError()}
+guard let resourceURL = Bundle.main.url(
+    forResource: "input",
+    withExtension: "txt"
+) else {
+    fatalError("Failed to read file")
+}
+
+guard let contentsOfFile = try? String.init(contentsOfFile: resourceURL.path) else {
+    fatalError("Failed to parse the file")
+}
     
-let numbers = contentsOfFile.split(separator: "\n")
+let numbers = contentsOfFile
+    .split(separator: "\n")
     .map(String.init)
     .compactMap(Int.init)
 
@@ -39,14 +48,16 @@ func magicTotal(_ a: Int, _ b: Int) -> (Int, Int)? {
     a + b == 2020 ? (a, b) : nil
 }
 
+func magicTotal(_ a: Int) -> (_ b: Int) -> (Int, Int)? {
+    { b in
+        a + b == 2020
+            ? (a, b)
+            : nil
+    }
+}
 
 let solutionTuple = numbers.map { num in
-    numbers.compactMap { num2 -> (Int, Int)? in
-        if magicTotal(num, num2) != nil {
-            return (num, num2)
-        }
-        return nil
-    }
+    numbers.compactMap { magicTotal(num)($0) }
 }.flatMap { $0 }
 
 print("Numbers whose sum is 2020: \(solutionTuple[0].0), \(solutionTuple[0].1)")
